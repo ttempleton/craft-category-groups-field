@@ -2,6 +2,8 @@
 
 #### A category groups field type for Craft CMS.
 
+<img src="src/icon.svg" width="180">
+
 ## Usage
 
 Category Groups fields have a Single Selection setting, which controls the behaviour of the field.  This setting is disabled by default.  When this setting is disabled, the field will resemble a typical multi-select field on an element edit page, and accessing the field in your templates will give you an array of the selected category groups.  When Single Selection is enabled, the field will resemble a dropdown field on an element edit page, and accessing the field in your templates will give you the category group model.
