@@ -1,6 +1,6 @@
 {
   "name": "ttempleton/craft-category-groups-field",
-  "description": "A category groups field type for Craft CMS",
+  "description": "A Craft CMS field type for selecting category groups",
   "version": "1.0.0",
   "type": "craft-plugin",
   "keywords": [
