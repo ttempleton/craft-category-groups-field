@@ -90,18 +90,28 @@ class CategoryGroupsField extends Field
                 $value = $value[0];
             }
 
+            if ($value instanceof CategoryGroup) {
+                return $value;
+            }
+
             return $value !== null ? $categoriesService->getGroupById($value) : null;
         }
 
         $fieldGroups = null;
 
         if (!empty($value)) {
+            // In case $value is an array of category groups already
+            if ($value[0] instanceof CategoryGroup) {
+                return $value;
+            }
+
             // Rather than query for each group individually, get all groups and filter for the ones we want
             $allGroups = $categoriesService->getAllGroups();
 
             $fieldGroups = array_filter($allGroups, function($group) use($value) {
                 return in_array($group->id, $value);
             });
+            $fieldGroups = array_values($fieldGroups);
         }
 
         return $fieldGroups;
