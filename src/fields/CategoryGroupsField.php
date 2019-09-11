@@ -81,8 +81,15 @@ class CategoryGroupsField extends Field
      */
     public function normalizeValue($value, ElementInterface $element = null)
     {
+        if ($value === null) {
+            return null;
+        }
+
         $categoriesService = Craft::$app->getCategories();
-        $value = JsonHelper::decodeIfJson($value);
+
+        if (!is_array($value)) {
+            $value = JsonHelper::decodeIfJson($value);
+        }
 
         if ($this->singleSelection) {
             // Just query for that one
