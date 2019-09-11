@@ -1,0 +1,38 @@
+{
+  "name": "ttempleton/craft-category-groups-field",
+  "description": "A category groups field type for Craft CMS",
+  "version": "1.0.0",
+  "type": "craft-plugin",
+  "keywords": [
+    "cms",
+    "craftcms",
+    "plugin"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Thomas Templeton",
+      "homepage": "https://github.com/ttempleton"
+    }
+  ],
+  "require": {
+    "craftcms/cms": "^3.0.0"
+  },
+  "support": {
+    "issues": "https://github.com/ttempleton/craft-category-groups-field/issues",
+    "source": "https://github.com/ttempleton/craft-category-groups-field",
+    "rss": "https://github.com/ttempleton/craft-category-groups-field/commits/master.atom"
+  },
+  "autoload": {
+    "psr-4": {
+      "ttempleton\\categorygroupsfield\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "category-groups-field",
+    "name": "Category Groups Field",
+    "class": "ttempleton\\categorygroupsfield\\Plugin",
+    "changelogUrl": "https://github.com/ttempleton/craft-category-groups-field/blob/master/CHANGELOG.md",
+    "downloadUrl": "https://github.com/ttempleton/craft-category-groups-field/archive/master.zip"
+  }
+}
