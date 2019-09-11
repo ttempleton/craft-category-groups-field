@@ -36,7 +36,7 @@ Field data is *not* altered immediately on changing this setting, in case the se
 
 ## Requirements
 
-Category Groups Field requires Craft CMS 3.0.0 or later.
+Category Groups Field requires Craft CMS 3.1.0 or later.
 
 ## Installation
 
