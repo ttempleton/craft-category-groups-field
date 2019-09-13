@@ -13,24 +13,24 @@ Field data is *not* altered immediately on changing this setting, in case the se
 #### Template example: Single Selection disabled
 
 ```twig
-{% if not entry.categoryGroupsField %}
-    <p>No category groups selected :(</p>
-{% else %}
+{% if entry.categoryGroupsField %}
     <p>Multi-selection category groups field:</p>
         {% for group in entry.categoryGroupsField %}
             <p>{{ group.name }}</p>
-        {% endfor %} 
+        {% endfor %}
     </p>
+{% else %}
+    <p>No category groups selected :(</p>
 {% endif %}
 ```
 
 #### Template example: Single Selection enabled
 
 ```twig
-{% if not entry.categoryGroupField %}
-    <p>No category group selected :(</p>
-{% else %}
+{% if entry.categoryGroupField %}
     <p>Single selection category group field: {{ entry.categoryGroupField.name }}</p>
+{% else %}
+    <p>No category group selected :(</p>
 {% endif %}
 ```
 
