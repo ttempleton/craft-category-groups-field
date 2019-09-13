@@ -4,6 +4,7 @@ namespace ttempleton\categorygroupsfield\fields;
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
+use craft\base\PreviewableFieldInterface;
 use craft\helpers\Json as JsonHelper;
 use craft\models\CategoryGroup;
 
@@ -14,7 +15,7 @@ use craft\models\CategoryGroup;
  * @author Thomas Templeton
  * @since 1.0.0
  */
-class CategoryGroupsField extends Field
+class CategoryGroupsField extends Field implements PreviewableFieldInterface
 {
     /**
      * @var bool Whether this field is limited to selecting one category group
@@ -74,6 +75,24 @@ class CategoryGroupsField extends Field
             'values' => $value !== null ? $this->_getGroupIds($value) : [],
             'options' => $options,
         ]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTableAttributeHtml($value, ElementInterface $element): string
+    {
+        // If multi-selection, return all selected groups' names
+        if (is_array($value)) {
+            return implode($this->_getGroupNames($value), '; ');
+        }
+
+        // If single selection, return just that group's name
+        if ($value instanceof CategoryGroup) {
+            return $value->name;
+        }
+
+        return '';
     }
 
     /**
@@ -152,5 +171,22 @@ class CategoryGroupsField extends Field
         }
 
         return $ids;
+    }
+
+    /**
+     * Returns the names of category groups.
+     *
+     * @param array $groups
+     * @return string[] array of the groups' names
+     */
+    private function _getGroupNames(array $groups): array
+    {
+        $names = [];
+
+        foreach ($groups as $group) {
+            $names[] = $group->name;
+        }
+
+        return $names;
     }
 }
