@@ -18,6 +18,11 @@ use craft\models\CategoryGroup;
 class CategoryGroupsField extends Field implements PreviewableFieldInterface
 {
     /**
+     * @var string|string[]
+     */
+    public $allowedGroups = '*';
+
+    /**
      * @var bool Whether this field is limited to selecting one category group
      */
     public $singleSelection = false;
@@ -35,13 +40,25 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
      */
     public function getSettingsHtml()
     {
-        return Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'lightswitchField', [[
+        $allowedGroups = Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'checkboxSelectField', [[
+            'label' => Craft::t('category-groups-field', 'Allowed Groups'),
+            'instructions' => Craft::t('category-groups-field', 'Which category groups to allow to be selected for this field.'),
+            'id' => 'allowedGroups',
+            'name' => 'allowedGroups',
+            'options' => $this->_getGroupsSettingsData(Craft::$app->getCategories()->getAllGroups()),
+            'values' => $this->allowedGroups,
+            'showAllOption' => true,
+        ]]);
+
+        $singleSelection = Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'lightswitchField', [[
             'label' => Craft::t('category-groups-field', 'Single Selection Mode'),
             'instructions' => Craft::t('category-groups-field', 'Whether this field is limited to selecting one category group.'),
             'id' => 'singleSelection',
             'name' => 'singleSelection',
             'on' => $this->singleSelection,
         ]]);
+
+        return $allowedGroups . $singleSelection;
     }
 
     /**
@@ -49,15 +66,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
-        $options = [];
-        $allGroups = Craft::$app->getCategories()->getAllGroups();
-
-        foreach ($allGroups as $group) {
-            $options[] = [
-                'label' => $group->name,
-                'value' => $group->id,
-            ];
-        }
+        $options = $this->_getGroupsInputData();
 
         if ($this->singleSelection) {
             return Craft::$app->getView()->renderTemplate('_includes/forms/select', [
@@ -188,5 +197,37 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
         }
 
         return $names;
+    }
+
+    private function _getGroupsSettingsData(array $groups): array
+    {
+        $settings = [];
+
+        foreach ($groups as $group) {
+            $settings[] = [
+                'label' => $group->name,
+                'value' => 'group:' . $group->uid,
+            ];
+        }
+
+        return $settings;
+    }
+
+    private function _getGroupsInputData(): array
+    {
+        $options = [];
+
+        foreach (Craft::$app->getCategories()->getAllGroups() as $group) {
+            $groupSource = 'group:' . $group->uid;
+
+            if (!is_array($this->allowedGroups) || in_array($groupSource, $this->allowedGroups)) {
+                $options[] = [
+                    'label' => $group->name,
+                    'value' => $group->id,
+                ];
+            }
+        }
+
+        return $options;
     }
 }
