@@ -51,7 +51,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
         ]]);
 
         $singleSelection = Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'lightswitchField', [[
-            'label' => Craft::t('category-groups-field', 'Single Selection Mode'),
+            'label' => Craft::t('category-groups-field', 'Single Selection'),
             'instructions' => Craft::t('category-groups-field', 'Whether this field is limited to selecting one category group.'),
             'id' => 'singleSelection',
             'name' => 'singleSelection',
