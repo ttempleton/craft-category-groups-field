@@ -6,6 +6,8 @@
 
 ## Usage
 
+### Single Selection setting
+
 Category Groups fields have a Single Selection setting, which controls the behaviour of the field.  This setting is disabled by default.  When this setting is disabled, the field will resemble a typical multi-select field on an element edit page, and accessing the field in your templates will give you an array of the selected category groups.  When Single Selection is enabled, the field will resemble a dropdown field on an element edit page, and accessing the field in your templates will give you the category group model.
 
 Field data is *not* altered immediately on changing this setting, in case the setting was changed by accident; the data will only be overwritten when actually resaving its element.  However, when Single Selection is enabled, the element edit page and templates will treat the first (in alphabetical order) selected category group as the field's only category group.
@@ -33,6 +35,10 @@ Field data is *not* altered immediately on changing this setting, in case the se
     <p>No category group selected :(</p>
 {% endif %}
 ```
+
+### Allowed Groups setting
+
+Choose which category groups your field can select from, or let it select from all groups.
 
 ## Requirements
 
