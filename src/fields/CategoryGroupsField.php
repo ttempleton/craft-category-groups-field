@@ -7,6 +7,7 @@ use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
 use craft\helpers\Json as JsonHelper;
 use craft\models\CategoryGroup;
+use ttempleton\categorygroupsfield\Plugin;
 
 /**
  * Category Groups field type class.
@@ -25,7 +26,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @var bool Whether this field is limited to selecting one category group
      */
-    public $singleSelection = false;
+    public $singleSelection;
 
     /**
      * @inheritdoc
@@ -55,7 +56,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
             'instructions' => Craft::t('category-groups-field', 'Whether this field is limited to selecting one category group.'),
             'id' => 'singleSelection',
             'name' => 'singleSelection',
-            'on' => $this->singleSelection,
+            'on' => $this->_isSingleSelection(),
         ]]);
 
         return $allowedGroups . $singleSelection;
@@ -68,7 +69,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     {
         $options = $this->_getGroupsInputData();
 
-        if ($this->singleSelection) {
+        if ($this->_isSingleSelection()) {
             return Craft::$app->getView()->renderTemplate('_includes/forms/select', [
                 'name' => $this->handle,
                 'value' => $value !== null ? $value->id : null,
@@ -119,7 +120,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
             $value = JsonHelper::decodeIfJson($value);
         }
 
-        if ($this->singleSelection) {
+        if ($this->_isSingleSelection()) {
             // Just query for that one
             if (is_array($value)) {
                 $value = $value[0];
@@ -229,5 +230,14 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
         }
 
         return $options;
+    }
+
+    private function _isSingleSelection(): bool
+    {
+        if ($this->singleSelection !== null) {
+            return $this->singleSelection;
+        }
+
+        return Plugin::getInstance()->getSettings()->singleSelectionDefault;
     }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Added
+- Added the `singleSelectionDefault` config setting
+
 ## 1.0.2 - 2019-09-17
 ### Added
 - Added Allowed Groups field setting

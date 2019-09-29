@@ -8,9 +8,19 @@
 
 ### Single Selection setting
 
-Category Groups fields have a Single Selection setting, which controls the behaviour of the field.  This setting is disabled by default.  When this setting is disabled, the field will resemble a typical multi-select field on an element edit page, and accessing the field in your templates will give you an array of the selected category groups.  When Single Selection is enabled, the field will resemble a dropdown field on an element edit page, and accessing the field in your templates will give you the category group model.
+The Single Selection field setting controls the behaviour of a category groups field.  When this setting is disabled, the field will resemble a typical multi-select field on an element edit page, and accessing the field in your templates will give you an array of the selected category groups.  When Single Selection is enabled, the field will resemble a dropdown field on an element edit page, and accessing the field in your templates will give you the category group model.
 
 Field data is *not* altered immediately on changing this setting, in case the setting was changed by accident; the data will only be overwritten when actually resaving its element.  However, when Single Selection is enabled, the element edit page and templates will treat the first (in alphabetical order) selected category group as the field's only category group.
+
+New category groups fields will default to multiple group selection.  If you'd prefer to use Single Selection as default, copy the following into `config/category-groups-field.php`:
+
+```php
+<?php
+
+return [
+    'singleSelectionDefault' => true,
+];
+```
 
 #### Template example: Single Selection disabled
 

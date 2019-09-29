@@ -6,6 +6,7 @@ use craft\base\Plugin as BasePlugin;
 use craft\events\RegisterComponentTypesEvent;
 use craft\services\Fields;
 use ttempleton\categorygroupsfield\fields\CategoryGroupsField;
+use ttempleton\categorygroupsfield\models\Settings;
 use yii\base\Event;
 
 /**
@@ -27,5 +28,13 @@ class Plugin extends BasePlugin
         Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
             $event->types[] = CategoryGroupsField::class;
         });
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createSettingsModel()
+    {
+        return new Settings();
     }
 }
