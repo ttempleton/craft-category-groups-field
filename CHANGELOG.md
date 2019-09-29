@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 - 2019-09-29
 ### Added
 - Added the `singleSelectionDefault` config setting
 
