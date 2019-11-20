@@ -8,6 +8,7 @@ use craft\base\PreviewableFieldInterface;
 use craft\helpers\Json as JsonHelper;
 use craft\models\CategoryGroup;
 use ttempleton\categorygroupsfield\Plugin;
+use ttempleton\categorygroupsfield\collections\CategoryGroupCollection;
 
 /**
  * Category Groups field type class.
@@ -82,7 +83,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
 
         return Craft::$app->getView()->renderTemplate('_includes/forms/multiselect', [
             'name' => $this->handle,
-            'values' => $value !== null ? $this->_getGroupIds($value) : [],
+            'values' => $value !== null ? $value->ids() : [],
             'options' => $options,
         ]);
     }
@@ -93,7 +94,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     public function getTableAttributeHtml($value, ElementInterface $element): string
     {
         // If multi-selection, return all selected groups' names
-        if (is_array($value)) {
+        if ($value instanceof CategoryGroupCollection) {
             return implode($this->_getGroupNames($value), '; ');
         }
 
@@ -114,12 +115,18 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
             return null;
         }
 
-        $categoriesService = Craft::$app->getCategories();
+        // In case $value is a category group collection already
+        if ($value instanceof CategoryGroupCollection) {
+            return $value;
+        }
 
         if (!is_array($value)) {
             $value = JsonHelper::decodeIfJson($value);
         }
 
+        $categoriesService = Craft::$app->getCategories();
+
+        // Single selection
         if ($this->_isSingleSelection()) {
             // Just query for that one
             if (is_array($value)) {
@@ -133,14 +140,8 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
             return $value !== null ? $categoriesService->getGroupById($value) : null;
         }
 
-        $fieldGroups = null;
-
+        // Multi-selection
         if (!empty($value)) {
-            // In case $value is an array of category groups already
-            if ($value[0] instanceof CategoryGroup) {
-                return $value;
-            }
-
             // Rather than query for each group individually, get all groups and filter for the ones we want
             $allGroups = $categoriesService->getAllGroups();
 
@@ -148,9 +149,12 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
                 return in_array($group->id, $value);
             });
             $fieldGroups = array_values($fieldGroups);
+
+            return new CategoryGroupCollection($fieldGroups);
         }
 
-        return $fieldGroups;
+        // No category groups selected
+        return null;
     }
 
     /**
@@ -163,37 +167,20 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
             return [$value->id];
         }
 
-        return $value !== null ? $this->_getGroupIds($value) : null;
-    }
-
-    /**
-     * Returns the IDs of category groups.
-     *
-     * @param array $groups
-     * @return int[] array of the groups' IDs
-     */
-    private function _getGroupIds(array $groups): array
-    {
-        $ids = [];
-
-        foreach ($groups as $group) {
-            $ids[] = $group->id;
-        }
-
-        return $ids;
+        return $value !== null ? $value->ids() : null;
     }
 
     /**
      * Returns the names of category groups.
      *
-     * @param array $groups
+     * @param CategoryGroupCollection $groups
      * @return string[] array of the groups' names
      */
-    private function _getGroupNames(array $groups): array
+    private function _getGroupNames(CategoryGroupCollection $groups): array
     {
         $names = [];
 
-        foreach ($groups as $group) {
+        foreach ($groups->all() as $group) {
             $names[] = $group->name;
         }
 

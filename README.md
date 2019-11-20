@@ -8,7 +8,7 @@
 
 ### Single Selection setting
 
-The Single Selection field setting controls the behaviour of a category groups field.  When this setting is disabled, the field will resemble a typical multi-select field on an element edit page, and accessing the field in your templates will give you an array of the selected category groups.  When Single Selection is enabled, the field will resemble a dropdown field on an element edit page, and accessing the field in your templates will give you the category group model.
+The Single Selection field setting controls the behaviour of a category groups field.  When this setting is disabled, the field will resemble a typical multi-select field on an element edit page, and accessing the field in your templates will give you the category group collection.  When Single Selection is enabled, the field will resemble a dropdown field on an element edit page, and accessing the field in your templates will give you the category group model.
 
 Field data is *not* altered immediately on changing this setting, in case the setting was changed by accident; the data will only be overwritten when actually resaving its element.  However, when Single Selection is enabled, the element edit page and templates will treat the first (in alphabetical order) selected category group as the field's only category group.
 
@@ -24,10 +24,12 @@ return [
 
 #### Template example: Single Selection disabled
 
+This example uses a category group collection's `all()` method to loop through the collection's groups.
+
 ```twig
 {% if entry.categoryGroupsField %}
     <p>Multi-selection category groups field:</p>
-        {% for group in entry.categoryGroupsField %}
+        {% for group in entry.categoryGroupsField.all() %}
             <p>{{ group.name }}</p>
         {% endfor %}
     </p>
@@ -35,6 +37,8 @@ return [
     <p>No category groups selected :(</p>
 {% endif %}
 ```
+
+A multi-select category groups field's data can be accessed in templates in a way that mimics the execution methods of a typical Craft element query, including the methods `all()`, `one()`, `nth()`, `count()` and `ids()`.
 
 #### Template example: Single Selection enabled
 
