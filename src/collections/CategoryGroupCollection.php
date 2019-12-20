@@ -17,9 +17,19 @@ use craft\models\CategoryGroup;
 class CategoryGroupCollection extends ArrayObject
 {
     /**
-     * @var CategoryGroup[]
+     * @var CategoryGroup[] The category groups of this collection
      */
-    private $groups = [];
+    private $_groups = [];
+
+    /**
+     * @var string[] The settings applied to this collection, in the order they were applied
+     */
+    private $_settings = [];
+
+    /**
+     * @var bool
+     */
+    private $_inReverse = false;
 
     /**
      * CategoryGroupCollection constructor.
@@ -38,7 +48,25 @@ class CategoryGroupCollection extends ArrayObject
             }
         }
 
-        $this->groups = $groups;
+        $this->_groups = $groups;
+    }
+
+    /**
+     * Sets whether the category groups should be returned in reverse order.
+     *
+     * @since 1.2.1
+     * @param bool $reverse
+     * @return static
+     */
+    public function inReverse(bool $reverse = true)
+    {
+        $this->_inReverse = $reverse;
+
+        if (!in_array('inReverse', $this->_settings)) {
+            $this->_settings[] = 'inReverse';
+        }
+
+        return $this;
     }
 
     /**
@@ -48,7 +76,7 @@ class CategoryGroupCollection extends ArrayObject
      */
     public function count(): int
     {
-        return count($this->groups);
+        return count($this->_getResults());
     }
 
     /**
@@ -58,7 +86,7 @@ class CategoryGroupCollection extends ArrayObject
      */
     public function all()
     {
-        return $this->groups;
+        return $this->_getResults();
     }
 
     /**
@@ -68,8 +96,10 @@ class CategoryGroupCollection extends ArrayObject
      */
     public function one()
     {
-        if (!empty($this->groups)) {
-            return $this->groups[0];
+        $groups = $this->_getResults();
+
+        if (!empty($groups)) {
+            return $groups[0];
         }
 
         return null;
@@ -83,8 +113,10 @@ class CategoryGroupCollection extends ArrayObject
      */
     public function nth(int $index)
     {
-        if ($index >= 0 && count($this->groups) > $index) {
-            return $this->groups[$index];
+        $groups = $this->_getResults();
+
+        if ($index >= 0 && count($groups) > $index) {
+            return $groups[$index];
         }
 
         return null;
@@ -99,7 +131,7 @@ class CategoryGroupCollection extends ArrayObject
     {
         $ids = [];
 
-        foreach ($this->groups as $group) {
+        foreach ($this->_getResults() as $group) {
             $ids[] = $group->id;
         }
 
@@ -113,6 +145,22 @@ class CategoryGroupCollection extends ArrayObject
      */
     public function getIterator(): ArrayIterator
     {
-        return new ArrayIterator($this->groups);
+        return new ArrayIterator($this->_getResults());
+    }
+
+    private function _getResults()
+    {
+        $groups = $this->_groups;
+
+        foreach ($this->_settings as $setting) {
+            switch ($setting) {
+                case 'inReverse':
+                    if ($this->_inReverse) {
+                        $groups = array_reverse($groups, false);
+                    }
+            }
+        }
+
+        return $groups;
     }
 }

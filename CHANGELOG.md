@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Added
+- Added the `inReverse()` method for `CategoryGroupCollection`
+
 ## 1.2.0 - 2019-11-20
 ### Added
 - Accessing a non-empty multi-selection field in a template now returns the new `CategoryGroupCollection`, which is designed to mimic a Craft element query (though doesn't yet support the more advanced filtering options that element queries have) (for now, iterating directly over a `CategoryGroupCollection` in templates is still supported, so no template changes are needed at this stage, but it will be deprecated in the future)
