@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.2.1 - 2019-12-20
 ### Added
 - Added the `inReverse()` method for `CategoryGroupCollection`
 
