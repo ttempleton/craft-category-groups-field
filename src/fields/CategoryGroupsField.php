@@ -6,6 +6,7 @@ use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
 use craft\helpers\Json as JsonHelper;
+use craft\helpers\UrlHelper;
 use craft\models\CategoryGroup;
 use ttempleton\categorygroupsfield\Plugin;
 use ttempleton\categorygroupsfield\collections\CategoryGroupCollection;
@@ -93,14 +94,20 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
      */
     public function getTableAttributeHtml($value, ElementInterface $element): string
     {
-        // If multi-selection, return all selected groups' names
         if ($value instanceof CategoryGroupCollection) {
-            return implode($this->_getGroupNames($value), '; ');
+            $html = [];
+
+            foreach ($value->all() as $group) {
+                $url = UrlHelper::cpUrl('categories/'. $group->handle);
+                $html[] = '<a href="' . $url . '">' . $group->name . '</a>';
+            }
+
+            return implode($html, '; ');
         }
 
-        // If single selection, return just that group's name
         if ($value instanceof CategoryGroup) {
-            return $value->name;
+            $url = UrlHelper::cpUrl('categories/'. $value->handle);
+            return '<a href="' . $url . '">' . $value->name . '</a>';
         }
 
         return '';
@@ -168,23 +175,6 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
         }
 
         return $value !== null ? $value->ids() : null;
-    }
-
-    /**
-     * Returns the names of category groups.
-     *
-     * @param CategoryGroupCollection $groups
-     * @return string[] array of the groups' names
-     */
-    private function _getGroupNames(CategoryGroupCollection $groups): array
-    {
-        $names = [];
-
-        foreach ($groups->all() as $group) {
-            $names[] = $group->name;
-        }
-
-        return $names;
     }
 
     private function _getGroupsSettingsData(array $groups): array

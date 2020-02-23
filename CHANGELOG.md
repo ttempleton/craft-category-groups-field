@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Changed
+- When displaying category groups field data in element index tables, category groups now link to their category management pages
+
 ## 1.2.1 - 2019-12-20
 ### Added
 - Added the `inReverse()` method for `CategoryGroupCollection`
