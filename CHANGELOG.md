@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.2.2 - 2020-02-23
 ### Changed
 - When displaying category groups field data in element index tables, category groups now link to their category management pages
 
