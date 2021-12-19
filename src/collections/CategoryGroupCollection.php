@@ -5,6 +5,8 @@ use ArrayIterator;
 use ArrayObject;
 use Craft;
 use craft\base\Model;
+use craft\elements\Category;
+use craft\elements\db\CategoryQuery;
 use craft\models\CategoryGroup;
 
 /**
@@ -146,6 +148,27 @@ class CategoryGroupCollection extends ArrayObject
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->_getResults());
+    }
+
+    /**
+     * Returns a category query prepared with the IDs of the groups in this collection, optionally
+     * with other criteria applied.
+     *
+     * @param array $criteria
+     * @return CategoryQuery
+     * @since 1.3.0
+     */
+    public function categories(array $criteria = []): CategoryQuery
+    {
+        // Add our IDs to any `groupId` passed in
+        if (isset($criteria['groupId']) && $criteria['groupId'] !== null) {
+            $otherGroupIds = is_array($criteria['groupId']) ? $criteria['groupId'] : [$criteria['groupId']];
+            $criteria['groupId'] = array_merge($this->ids(), $otherGroupIds);
+        } else {
+            $criteria['groupId'] = $this->ids();
+        }
+
+        return Craft::configure(Category::find(), $criteria);
     }
 
     private function _getResults()
