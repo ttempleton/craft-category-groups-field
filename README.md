@@ -40,6 +40,27 @@ This example uses a category group collection's `all()` method to loop through t
 
 A multi-select category groups field's data can be accessed in templates in a way that mimics the execution methods of a typical Craft element query, including the methods `all()`, `one()`, `nth()`, `count()` and `ids()`.
 
+It can also be used to get the categories belonging to the selected category groups, using the `categories()` method to return a Craft category query:
+
+```twig
+{% if entry.categoryGroupsField %}
+    {% for category in entry.categoryGroupsField.categories().all() %}
+        <p>{{ category.title }}</p>
+    {% endfor %}
+{% endif %}
+```
+
+After using `categories()`, if you want to set any other category query parameters, be careful not to set the `groupId`, since it will override the IDs of the groups selected in the field. If you need to set additional category group IDs, you can pass a hash to `categories()` containing category query parameters, and any group IDs included will be merged with those selected in the field:
+
+```twig
+{% if entry.categoryGroupsField %}
+    {# Gets the categories from category groups with IDs 1, 2 and 3, as well as the category groups selected in the field #}
+    {% for category in entry.categoryGroupsField.categories({groupId: [1, 2, 3]}).all() %}
+        <p>{{ category.title }}</p>
+    {% endfor %}
+{% endif %}
+```
+
 #### Template example: Single Selection enabled
 
 ```twig
