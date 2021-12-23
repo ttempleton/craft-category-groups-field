@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.3.0 - 2021-12-23
 
 ### Added
 - Added the `categories()` method for `CategoryGroupCollection` which returns a `CategoryQuery`
