@@ -21,7 +21,7 @@
   "support": {
     "issues": "https://github.com/ttempleton/craft-category-groups-field/issues",
     "source": "https://github.com/ttempleton/craft-category-groups-field",
-    "rss": "https://github.com/ttempleton/craft-category-groups-field/commits/master.atom"
+    "rss": "https://github.com/ttempleton/craft-category-groups-field/commits/main.atom"
   },
   "autoload": {
     "psr-4": {
@@ -32,7 +32,7 @@
     "handle": "category-groups-field",
     "name": "Category Groups Field",
     "class": "ttempleton\\categorygroupsfield\\Plugin",
-    "changelogUrl": "https://github.com/ttempleton/craft-category-groups-field/blob/master/CHANGELOG.md",
-    "downloadUrl": "https://github.com/ttempleton/craft-category-groups-field/archive/master.zip"
+    "changelogUrl": "https://github.com/ttempleton/craft-category-groups-field/blob/main/CHANGELOG.md",
+    "downloadUrl": "https://github.com/ttempleton/craft-category-groups-field/archive/main.zip"
   }
 }
