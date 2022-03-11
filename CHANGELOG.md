@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- Added Craft 4 support
+
+### Changed
+- Category Groups Field now requires Craft 4.0.0-beta.1 or later
+- Category Groups Field now requires PHP 8.0.2 or later
+
 ## 1.3.0 - 2021-12-23
 
 ### Added
