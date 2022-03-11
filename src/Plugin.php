@@ -1,7 +1,7 @@
 <?php
+
 namespace ttempleton\categorygroupsfield;
 
-use Craft;
 use craft\base\Plugin as BasePlugin;
 use craft\events\RegisterComponentTypesEvent;
 use craft\services\Fields;
@@ -11,7 +11,7 @@ use yii\base\Event;
 
 /**
  * Main Category Groups Field plugin class.
- * 
+ *
  * @package ttempleton\categorygroupsfield
  * @author Thomas Templeton
  * @since 1.0.0

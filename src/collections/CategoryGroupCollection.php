@@ -1,17 +1,17 @@
 <?php
+
 namespace ttempleton\categorygroupsfield\collections;
 
 use ArrayIterator;
 use ArrayObject;
 use Craft;
-use craft\base\Model;
 use craft\elements\Category;
 use craft\elements\db\CategoryQuery;
 use craft\models\CategoryGroup;
 
 /**
  * Category Group Collection class.
- * 
+ *
  * @package ttempleton\categorygroupsfield\collections
  * @author Thomas Templeton
  * @since 1.2.0

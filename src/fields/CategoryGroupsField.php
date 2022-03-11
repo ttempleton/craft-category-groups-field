@@ -1,4 +1,5 @@
 <?php
+
 namespace ttempleton\categorygroupsfield\fields;
 
 use Craft;
@@ -9,12 +10,12 @@ use craft\helpers\Cp;
 use craft\helpers\Json as JsonHelper;
 use craft\helpers\UrlHelper;
 use craft\models\CategoryGroup;
-use ttempleton\categorygroupsfield\Plugin;
 use ttempleton\categorygroupsfield\collections\CategoryGroupCollection;
+use ttempleton\categorygroupsfield\Plugin;
 
 /**
  * Category Groups field type class.
- * 
+ *
  * @package ttempleton\categorygroupsfield\fields
  * @author Thomas Templeton
  * @since 1.0.0
@@ -99,7 +100,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
             $html = [];
 
             foreach ($value->all() as $group) {
-                $url = UrlHelper::cpUrl('categories/'. $group->handle);
+                $url = UrlHelper::cpUrl('categories/' . $group->handle);
                 $html[] = '<a href="' . $url . '">' . $group->name . '</a>';
             }
 
@@ -107,7 +108,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
         }
 
         if ($value instanceof CategoryGroup) {
-            $url = UrlHelper::cpUrl('categories/'. $value->handle);
+            $url = UrlHelper::cpUrl('categories/' . $value->handle);
             return '<a href="' . $url . '">' . $value->name . '</a>';
         }
 
@@ -153,7 +154,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
             // Rather than query for each group individually, get all groups and filter for the ones we want
             $allGroups = $categoriesService->getAllGroups();
 
-            $fieldGroups = array_filter($allGroups, function($group) use($value) {
+            $fieldGroups = array_filter($allGroups, function($group) use ($value) {
                 return in_array($group->id, $value);
             });
             $fieldGroups = array_values($fieldGroups);
