@@ -1,12 +1,9 @@
 # Changelog
 
-## Unreleased
+## 2.0.0-beta.1 - 2022-03-11
 
 ### Added
-- Added Craft 4 compatibility
-
-### Changed
-- Category Groups Field now requires Craft 4.0.0-beta.1 or later
+- Added Craft 4 compatibility (requires Craft 4.0.0-beta.1 or later)
 
 ## 1.3.0 - 2021-12-23
 
