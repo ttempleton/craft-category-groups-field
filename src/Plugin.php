@@ -2,6 +2,7 @@
 
 namespace ttempleton\categorygroupsfield;
 
+use craft\base\Model;
 use craft\base\Plugin as BasePlugin;
 use craft\events\RegisterComponentTypesEvent;
 use craft\services\Fields;
@@ -21,7 +22,7 @@ class Plugin extends BasePlugin
     /**
      * Initialises the Category Groups Field plugin.
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -33,7 +34,7 @@ class Plugin extends BasePlugin
     /**
      * @inheritdoc
      */
-    public function createSettingsModel(): ?\craft\base\Model
+    public function createSettingsModel(): ?Model
     {
         return new Settings();
     }

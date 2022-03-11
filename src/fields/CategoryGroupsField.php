@@ -25,12 +25,12 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @var string|string[]
      */
-    public $allowedGroups = '*';
+    public string|array $allowedGroups = '*';
 
     /**
-     * @var bool Whether this field is limited to selecting one category group
+     * @var bool|null Whether this field is limited to selecting one category group
      */
-    public $singleSelection;
+    public ?bool $singleSelection;
 
     /**
      * @inheritdoc
@@ -69,7 +69,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function getInputHtml(mixed $value, ?\craft\base\ElementInterface $element = null): string
+    public function getInputHtml(mixed $value, ?ElementInterface $element = null): string
     {
         $options = $this->_getGroupsInputData();
 
@@ -118,7 +118,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function normalizeValue(mixed $value, ?\craft\base\ElementInterface $element = null): mixed
+    public function normalizeValue(mixed $value, ?ElementInterface $element = null): mixed
     {
         if ($value === null) {
             return null;
@@ -169,7 +169,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function serializeValue(mixed $value, ?\craft\base\ElementInterface $element = null): mixed
+    public function serializeValue(mixed $value, ?ElementInterface $element = null): mixed
     {
         if ($value instanceof CategoryGroup) {
             // Single selection is enabled, but return an array anyway, in case that setting is disabled in the future

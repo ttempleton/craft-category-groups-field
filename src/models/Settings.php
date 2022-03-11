@@ -13,7 +13,7 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
-    public $singleSelectionDefault = false;
+    public bool $singleSelectionDefault = false;
 
     public function rules(): array
     {

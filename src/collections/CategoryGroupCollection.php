@@ -21,17 +21,17 @@ class CategoryGroupCollection extends ArrayObject
     /**
      * @var CategoryGroup[] The category groups of this collection
      */
-    private $_groups = [];
+    private array $_groups = [];
 
     /**
      * @var string[] The settings applied to this collection, in the order they were applied
      */
-    private $_settings = [];
+    private array $_settings = [];
 
     /**
      * @var bool
      */
-    private $_inReverse = false;
+    private bool $_inReverse = false;
 
     /**
      * CategoryGroupCollection constructor.
@@ -58,9 +58,9 @@ class CategoryGroupCollection extends ArrayObject
      *
      * @since 1.2.1
      * @param bool $reverse
-     * @return static
+     * @return self
      */
-    public function inReverse(bool $reverse = true)
+    public function inReverse(bool $reverse = true): self
     {
         $this->_inReverse = $reverse;
 
@@ -86,7 +86,7 @@ class CategoryGroupCollection extends ArrayObject
      *
      * @return CategoryGroup[]
      */
-    public function all()
+    public function all(): array
     {
         return $this->_getResults();
     }
@@ -96,7 +96,7 @@ class CategoryGroupCollection extends ArrayObject
      *
      * @return CategoryGroup|null
      */
-    public function one()
+    public function one(): ?CategoryGroup
     {
         $groups = $this->_getResults();
 
@@ -113,7 +113,7 @@ class CategoryGroupCollection extends ArrayObject
      * @param int $index
      * @return CategoryGroup|null
      */
-    public function nth(int $index)
+    public function nth(int $index): ?CategoryGroup
     {
         $groups = $this->_getResults();
 
@@ -171,7 +171,7 @@ class CategoryGroupCollection extends ArrayObject
         return Craft::configure(Category::find(), $criteria);
     }
 
-    private function _getResults()
+    private function _getResults(): array
     {
         $groups = $this->_groups;
 
