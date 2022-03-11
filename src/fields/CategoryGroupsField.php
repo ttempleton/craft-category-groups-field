@@ -5,6 +5,7 @@ use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
+use craft\helpers\Cp;
 use craft\helpers\Json as JsonHelper;
 use craft\helpers\UrlHelper;
 use craft\models\CategoryGroup;
@@ -43,7 +44,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
      */
     public function getSettingsHtml(): ?string
     {
-        $allowedGroups = Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'checkboxSelectField', [[
+        $allowedGroups = Cp::checkboxSelectFieldHtml([
             'label' => Craft::t('category-groups-field', 'Allowed Groups'),
             'instructions' => Craft::t('category-groups-field', 'Which category groups to allow to be selected for this field.'),
             'id' => 'allowedGroups',
@@ -51,15 +52,15 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
             'options' => $this->_getGroupsSettingsData(Craft::$app->getCategories()->getAllGroups()),
             'values' => $this->allowedGroups,
             'showAllOption' => true,
-        ]]);
+        ]);
 
-        $singleSelection = Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'lightswitchField', [[
+        $singleSelection = Cp::lightswitchFieldHtml([
             'label' => Craft::t('category-groups-field', 'Single Selection'),
             'instructions' => Craft::t('category-groups-field', 'Whether this field is limited to selecting one category group.'),
             'id' => 'singleSelection',
             'name' => 'singleSelection',
             'on' => $this->_isSingleSelection(),
-        ]]);
+        ]);
 
         return $allowedGroups . $singleSelection;
     }
