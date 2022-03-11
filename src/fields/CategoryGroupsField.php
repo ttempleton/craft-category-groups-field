@@ -41,7 +41,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function getSettingsHtml()
+    public function getSettingsHtml(): ?string
     {
         $allowedGroups = Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'checkboxSelectField', [[
             'label' => Craft::t('category-groups-field', 'Allowed Groups'),
@@ -67,7 +67,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function getInputHtml($value, ElementInterface $element = null): string
+    public function getInputHtml(mixed $value, ?\craft\base\ElementInterface $element = null): string
     {
         $options = $this->_getGroupsInputData();
 
@@ -92,7 +92,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function getTableAttributeHtml($value, ElementInterface $element): string
+    public function getTableAttributeHtml(mixed $value, ElementInterface $element): string
     {
         if ($value instanceof CategoryGroupCollection) {
             $html = [];
@@ -116,7 +116,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function normalizeValue($value, ElementInterface $element = null)
+    public function normalizeValue(mixed $value, ?\craft\base\ElementInterface $element = null): mixed
     {
         if ($value === null) {
             return null;
@@ -167,7 +167,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function serializeValue($value, ElementInterface $element = null)
+    public function serializeValue(mixed $value, ?\craft\base\ElementInterface $element = null): mixed
     {
         if ($value instanceof CategoryGroup) {
             // Single selection is enabled, but return an array anyway, in case that setting is disabled in the future

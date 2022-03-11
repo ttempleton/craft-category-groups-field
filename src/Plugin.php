@@ -33,7 +33,7 @@ class Plugin extends BasePlugin
     /**
      * @inheritdoc
      */
-    public function createSettingsModel()
+    public function createSettingsModel(): ?\craft\base\Model
     {
         return new Settings();
     }

@@ -14,7 +14,7 @@ class Settings extends Model
 {
     public $singleSelectionDefault = false;
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['singleSelectionDefault'], 'boolean'],
