@@ -30,7 +30,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @var bool|null Whether this field is limited to selecting one category group
      */
-    public ?bool $singleSelection;
+    public ?bool $singleSelection = false;
 
     /**
      * @inheritdoc
