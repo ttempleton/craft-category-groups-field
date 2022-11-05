@@ -1,7 +1,7 @@
 {
   "name": "ttempleton/craft-category-groups-field",
   "description": "A Craft CMS field type for selecting category groups",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "craft-plugin",
   "keywords": [
     "cms",
@@ -34,7 +34,7 @@
     "name": "Category Groups Field",
     "class": "ttempleton\\categorygroupsfield\\Plugin",
     "changelogUrl": "https://github.com/ttempleton/craft-category-groups-field/blob/2.x/CHANGELOG.md",
-    "downloadUrl": "https://github.com/ttempleton/craft-category-groups-field/archive/refs/tags/2.0.0.zip"
+    "downloadUrl": "https://github.com/ttempleton/craft-category-groups-field/archive/refs/tags/2.0.1.zip"
   },
   "config": {
     "allow-plugins": {
