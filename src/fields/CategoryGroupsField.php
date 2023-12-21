@@ -6,12 +6,14 @@ use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
+use craft\helpers\ArrayHelper;
 use craft\helpers\Cp;
 use craft\helpers\Json as JsonHelper;
 use craft\helpers\UrlHelper;
 use craft\models\CategoryGroup;
 use ttempleton\categorygroupsfield\collections\CategoryGroupCollection;
 use ttempleton\categorygroupsfield\Plugin;
+use ttempleton\categorygroupsfield\web\assets\sortable\SortableAsset;
 
 /**
  * Category Groups field type class.
@@ -71,8 +73,6 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
      */
     public function getInputHtml(mixed $value, ?ElementInterface $element = null): string
     {
-        $options = $this->_getGroupsInputData();
-
         if ($this->_isSingleSelection()) {
             return Craft::$app->getView()->renderTemplate('_includes/forms/select', [
                 'name' => $this->handle,
@@ -80,14 +80,22 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
                 'options' => array_merge([[
                     'label' => '',
                     'value' => null,
-                ]], $options),
+                ]], $this->_getGroupsInputData()),
             ]);
         }
 
-        return Craft::$app->getView()->renderTemplate('_includes/forms/multiselect', [
+        Craft::$app->getView()->registerAssetBundle(SortableAsset::class);
+        $selectedIds = $value?->ids() ?? [];
+
+        return Cp::selectizeHtml([
+            'class' => 'selectize',
             'name' => $this->handle,
-            'values' => $value !== null ? $value->ids() : [],
-            'options' => $options,
+            'values' => $selectedIds,
+            'options' => $this->_getGroupsInputData($selectedIds),
+            'multi' => true,
+            'selectizeOptions' => [
+                'plugins' => ['drag_drop'],
+            ],
         ]);
     }
 
@@ -151,13 +159,12 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
 
         // Multi-selection
         if (!empty($value)) {
-            // Rather than query for each group individually, get all groups and filter for the ones we want
-            $allGroups = $categoriesService->getAllGroups();
-
-            $fieldGroups = array_filter($allGroups, function($group) use ($value) {
-                return in_array($group->id, $value);
-            });
-            $fieldGroups = array_values($fieldGroups);
+            // Rather than query for each group individually, get all groups and pick out the ones we want
+            $allGroups = ArrayHelper::index($categoriesService->getAllGroups(), 'id');
+            $fieldGroups = array_values(array_filter(array_map(
+                fn($id) => $allGroups[$id] ?? null,
+                $value
+            )));
 
             return new CategoryGroupCollection($fieldGroups);
         }
@@ -193,22 +200,38 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
         return $settings;
     }
 
-    private function _getGroupsInputData(): array
+    private function _getGroupsInputData(array $ids = []): array
     {
         $options = [];
+        $allGroups = ArrayHelper::index(Craft::$app->getCategories()->getAllGroups(), 'id');
 
-        foreach (Craft::$app->getCategories()->getAllGroups() as $group) {
-            $groupSource = 'group:' . $group->uid;
+        foreach ($ids as $id) {
+            $group = ArrayHelper::remove($allGroups, $id);
 
-            if (!is_array($this->allowedGroups) || in_array($groupSource, $this->allowedGroups)) {
-                $options[] = [
-                    'label' => $group->name,
-                    'value' => $group->id,
-                ];
+            if ($group !== null) {
+                $options[] = $this->_getGroupOptionData($group);
             }
         }
 
-        return $options;
+        foreach ($allGroups as $group) {
+            $options[] = $this->_getGroupOptionData($group);
+        }
+
+        return array_values(array_filter($options));
+    }
+
+    private function _getGroupOptionData(CategoryGroup $group): ?array
+    {
+        $groupSource = 'group:' . $group->uid;
+
+        if (is_array($this->allowedGroups) && !in_array($groupSource, $this->allowedGroups)) {
+            return null;
+        }
+
+        return [
+            'label' => $group->name,
+            'value' => $group->id,
+        ];
     }
 
     private function _isSingleSelection(): bool
