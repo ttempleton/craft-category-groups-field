@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `ttempleton\categorygroupsfield\web\assets\sortable\SortableAsset` (includes the jQuery UI Sortable widget)
 
 ### Changed
+- Category Groups Field now requires Craft 4.5.0 or later
 - Multi-select category groups fields now use the Selectize library with the Drag & Drop plugin
 
 ## 2.0.1 - 2022-11-05
