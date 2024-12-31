@@ -13,12 +13,12 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
-    public bool $singleSelectionDefault = false;
+	public bool $singleSelectionDefault = false;
 
-    public function rules(): array
-    {
-        return [
-            [['singleSelectionDefault'], 'boolean'],
-        ];
-    }
+	public function rules(): array
+	{
+		return [
+			[['singleSelectionDefault'], 'boolean'],
+		];
+	}
 }

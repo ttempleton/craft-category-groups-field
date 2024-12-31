@@ -14,16 +14,16 @@ use craft\web\assets\cp\CpAsset;
  */
 class SortableAsset extends AssetBundle
 {
-    public function init(): void
-    {
-        $this->sourcePath = __DIR__ . DIRECTORY_SEPARATOR . 'dist';
-        $this->depends = [
-            CpAsset::class,
-        ];
-        $this->js = [
-            'jquery-ui.min.js',
-        ];
+	public function init(): void
+	{
+		$this->sourcePath = __DIR__ . DIRECTORY_SEPARATOR . 'dist';
+		$this->depends = [
+			CpAsset::class,
+		];
+		$this->js = [
+			'jquery-ui.min.js',
+		];
 
-        parent::init();
-    }
+		parent::init();
+	}
 }

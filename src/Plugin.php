@@ -19,23 +19,23 @@ use yii\base\Event;
  */
 class Plugin extends BasePlugin
 {
-    /**
-     * Initialises the Category Groups Field plugin.
-     */
-    public function init(): void
-    {
-        parent::init();
+	/**
+	 * Initialises the Category Groups Field plugin.
+	 */
+	public function init(): void
+	{
+		parent::init();
 
-        Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
-            $event->types[] = CategoryGroupsField::class;
-        });
-    }
+		Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
+			$event->types[] = CategoryGroupsField::class;
+		});
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function createSettingsModel(): ?Model
-    {
-        return new Settings();
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function createSettingsModel(): ?Model
+	{
+		return new Settings();
+	}
 }
