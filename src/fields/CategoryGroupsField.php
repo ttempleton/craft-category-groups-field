@@ -102,7 +102,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function getTableAttributeHtml(mixed $value, ElementInterface $element): string
+    public function getPreviewHtml(mixed $value, ElementInterface $element): string
     {
         if ($value instanceof CategoryGroupCollection) {
             $html = [];
