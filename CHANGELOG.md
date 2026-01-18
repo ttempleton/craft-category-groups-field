@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.0.0 - 2026-01-18
+
+### Added
+- Added Craft 5 compatibility (requires at least Craft 5.8.0)
+
+### Changed
+- Multi-select category groups fields now use Craft's component select template for input
+
+### Removed
+- Removed Craft 4 compatibility
+- Removed `ttempleton\categorygroupsfield\web\assets\sortable\SortableAsset`
+
 ## 2.1.0 - 2023-12-21
 
 ### Added
