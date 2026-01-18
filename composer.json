@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "craftcms/cms": "^5.0.0"
+    "craftcms/cms": "^5.8.0"
   },
   "support": {
     "issues": "https://github.com/ttempleton/craft-category-groups-field/issues",

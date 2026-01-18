@@ -77,7 +77,7 @@ Choose which category groups your field can select from, or let it select from a
 
 ## Requirements
 
-Category Groups Field requires Craft CMS 4.5.0 or later.
+Category Groups Field requires Craft CMS 5.8.0 or later.
 
 ## Installation
 
