@@ -1,0 +1,17 @@
+{% embed '_includes/forms/componentSelect.twig' with {
+  options: options ?? craft.app.entries.getAllEntryTypes(),
+} %}
+  {% block chips %}
+    {% for categoryGroup in values %}
+      <li>
+        {% set chip = chip(categoryGroup, {
+          inputName: inputName ?? name ?? null,
+        }) %}
+        {% if disabled %}
+          {% set chip = chip|removeClass('removable') %}
+        {% endif %}
+        {{ chip|raw }}
+      </li>
+    {% endfor %}
+  {% endblock %}
+{% endembed %}

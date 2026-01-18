@@ -13,7 +13,6 @@ use craft\helpers\UrlHelper;
 use craft\models\CategoryGroup;
 use ttempleton\categorygroupsfield\collections\CategoryGroupCollection;
 use ttempleton\categorygroupsfield\Plugin;
-use ttempleton\categorygroupsfield\web\assets\sortable\SortableAsset;
 
 /**
  * Category Groups field type class.
@@ -71,7 +70,7 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
 	/**
 	 * @inheritdoc
 	 */
-	public function getInputHtml(mixed $value, ?ElementInterface $element = null): string
+	protected function inputHtml(mixed $value, ?ElementInterface $element, bool $inline): string
 	{
 		if ($this->_isSingleSelection()) {
 			return Craft::$app->getView()->renderTemplate('_includes/forms/select', [
@@ -84,18 +83,28 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
 			]);
 		}
 
-		Craft::$app->getView()->registerAssetBundle(SortableAsset::class);
-		$selectedIds = $value?->ids() ?? [];
+		$selectedGroups = $value?->all() ?? [];
+		$allGroups = Craft::$app->getCategories()->getAllGroups();
 
-		return Cp::selectizeHtml([
-			'class' => 'selectize',
-			'name' => $this->handle,
-			'values' => $selectedIds,
-			'options' => $this->_getGroupsInputData($selectedIds),
-			'multi' => true,
-			'selectizeOptions' => [
-				'plugins' => ['drag_drop'],
-			],
+		if ($this->allowedGroups === '*') {
+			$options = $allGroups;
+		} else {
+			$groupUidMap = [];
+
+			foreach ($this->allowedGroups as $allowedGroup) {
+				$groupUidMap[$allowedGroup] = true;
+			}
+
+			$options = array_filter(
+				$allGroups,
+				fn($group) => isset($groupUidMap[sprintf('group:%s', $group->uid)]),
+			);
+		}
+
+		return Craft::$app->getView()->renderTemplate('category-groups-field/_categoryGroupSelect', [
+			'name' => $this->handle . '[]',
+			'values' => $value !== null ? $selectedGroups : null,
+			'options' => $options,
 		]);
 	}
 
@@ -159,6 +168,10 @@ class CategoryGroupsField extends Field implements PreviewableFieldInterface
 
 		// Multi-selection
 		if (!empty($value)) {
+			if (is_int($value)) {
+				$value = [$value];
+			}
+
 			// Rather than query for each group individually, get all groups and pick out the ones we want
 			$allGroups = ArrayHelper::index($categoriesService->getAllGroups(), 'id');
 			$fieldGroups = array_values(array_filter(array_map(
